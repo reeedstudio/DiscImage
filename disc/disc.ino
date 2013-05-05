@@ -33,6 +33,7 @@ void setup()
     pinMode (encoder0PinA,INPUT);
     pinMode (encoder0PinB,INPUT);
     Serial.begin (115200);
+    Serial.println("hello world");
 }
 
 void loop() 
