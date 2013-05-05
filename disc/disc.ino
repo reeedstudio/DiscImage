@@ -18,7 +18,7 @@ int nImage = 0;
 int mImage = 0;
 int mImage_buf = 0;
 
-int  sum    = 0;
+long  sum    = 0;
 bool getIrq = 0;
 
 int val;
@@ -48,8 +48,13 @@ void loop()
         {
             sum++;
         }
-        sum = (sum == N*400 || sum == N*(-400)) ? 0 : sum;
+
         getIrq = 1;
+        
+        if(sum == 90 || sum == -90)
+        {
+            sum = 0;
+        }
 
     }
     encoder0PinALast = n;
@@ -59,18 +64,17 @@ void loop()
         getIrq = 0;
         
         int sum_t = sum;
-        sum_t = sum_t<0 ? N*400+sum_t : sum_t;
 
-        nImage = sum_t / 400;
-        mImage = sum_t - nImage*400;
+        sum_t = sum_t<0 ? N*30+sum_t : sum_t;
         
-        mImage = map(mImage, 0, 399, 0, numImage[nImage]-1);
-        
+        nImage = sum_t / 30;
+        mImage = sum_t - nImage*30;
+
         if(mImage != mImage_buf)
         {
             mImage_buf = mImage;
             Serial.print(nImage);
-            Serial.print('\t');
+            Serial.print('-');
             Serial.println(mImage);
         }
     }
